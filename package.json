@@ -2,10 +2,12 @@
   "name": "openai-quickstart-node",
   "version": "0.1.0",
   "private": true,
+  "export": "npm run build && next export",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "export": "npm run build && next export"
   },
   "dependencies": {
     "next": "^13.1.1",

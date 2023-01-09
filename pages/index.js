@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [questionInput, setQuestionInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,16 +14,16 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ question: questionInput }),
       });
 
       const data = await response.json();
       if (response.status !== 200) {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
-
+      console.log(data.result);
       setResult(data.result);
-      setAnimalInput("");
+      setQuestionInput("");
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -39,19 +39,21 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <h3>Ask a question:</h3>
         <form onSubmit={onSubmit}>
-          <input
+          <textarea
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
-          />
-          <input type="submit" value="Generate names" />
+            name="question"
+            placeholder="Enter a question"
+            value={questionInput}
+            onChange={(e) => setQuestionInput(e.target.value)}
+          ></textarea>
+          <input type="submit" value="Generate Answer" />
         </form>
-        <div className={styles.result}>{result}</div>
+        {/* style the result */}
+        <div className={styles.result}>
+          {result && <p>{result}</p>}
+        </div>
       </main>
     </div>
   );
